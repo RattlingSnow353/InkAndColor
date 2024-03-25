@@ -29,5 +29,7 @@ The Color- Converts 3 selected cards to suit color
 ![c_color_tarot](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/1d40e286-c094-4e4c-b764-4a99495aa894)
 
 
-
+Adds two new Blinds:
+The Bleach- Debuffs all cards with ink suit
+[wip]The Drain- Debuffs all cards with color suit
 
