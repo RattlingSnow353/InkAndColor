@@ -7,9 +7,7 @@ Ink And Color-
 
 Adds two new jokers:
 Artist- Played cards with color suit gives +4 mult
-![j_artist](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/83de8b4e-9819-40da-b42e-fea1489966d1)
-
-
+![j_artist](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/4d1e0ba8-6ab6-4ea9-91cb-13734e354fa3)
 
 
 Inked Joker- Played cards with Ink suit gives +4 mult
