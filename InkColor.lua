@@ -8,64 +8,11 @@
 ------------MOD CODE -------------------------
 local config = {
     -- Decks
-    
+    -- Maybe one day
     -- Jokers
     inkedJoker = true,
     artist = true,
 }
-
-local function is_even(card)
-    local id = card:get_id()
-    return id <= 10 and id % 2 == 0
-end
-
-local function is_odd(card)
-    local id = card:get_id()
-    return (id % 2 ~= 0 and id < 10) or id == 14
-end
-
-local function is_fibo(card)
-    local id = card:get_id()
-    return id == 2 or id == 3 or id == 5 or id == 8 or id == 14
-end
-
-local function is_prime(card)
-    local id = card:get_id()
-    return id == 2 or id == 3 or id == 5 or id == 7 or id == 14
-end
-
-local function is_face(card)
-    local id = card:get_id()
-    return id == 11 or id == 12 or id == 13
-end
-
-local function get_random_letter(letter)
-    -- 'A' to 'Z' is 65 to 95
-    local random_ascii = math.random(65, 90)
-    local new_letter = string.char(random_ascii)
-    if letter ~= new_letter then
-        return new_letter
-    else
-        return get_random_letter(letter)
-    end
-end
-
-local function remove_prefix(name, prefix)
-    local start_pos, end_pos = string.find(name, prefix)
-    if start_pos == 1 then
-        return string.sub(name, end_pos + 1)
-    else
-        return name
-    end
-end
-
-local function count_letters(str, letter)
-    local count = 0
-    for i in str:gmatch(letter) do
-        count = count + 1
-    end
-    return count
-end
 
 local enhancements = {
     G.P_CENTERS.m_bonus,
@@ -249,6 +196,8 @@ function SMODS.INIT.InkAndColor()
         end
     end
 
+    --SMODS.Tarot:new = (name = "", slug = "", config = {}, pos = {}, loc_txt = {}, cost = 3, cost_mult = 1.0, effect = "", discovered = false, consumeable = true)
+
     -- Blob Tarot
     local blob_tarot_def = {
         name = "The Blob",
@@ -261,7 +210,6 @@ function SMODS.INIT.InkAndColor()
     
     local blob_tarot = SMODS.Tarot:new("The Blob", "blob_tarot", {suit_conv = 'Ink', max_highlighted = 3}, { x = 0, y = 0 }, blob_tarot_def, 3, 1.0, "Suit Conversion", true, true)
     SMODS.Sprite:new("c_blob_tarot", ink_and_color_mod.path, "c_blob_tarot.png", 71, 95, "asset_atli"):register();
-    blob_tarot:register()
 
     -- Color Tarot
     local color_tarot_def = {
@@ -275,7 +223,11 @@ function SMODS.INIT.InkAndColor()
     
     local color_tarot = SMODS.Tarot:new("The Color", "color_tarot", {suit_conv = 'Color', max_highlighted = 3}, { x = 0, y = 0 }, color_tarot_def, 3, 1.0, "Suit Conversion", true, true)
     SMODS.Sprite:new("c_color_tarot", ink_and_color_mod.path, "c_color_tarot.png", 71, 95, "asset_atli"):register();
+    
     color_tarot:register()
+    blob_tarot:register()
+
+    -- SMODS.Blind = {name = "", slug = "", loc_txt = {}, dollars = 5, mult = 2, vars = {}, debuff = {}, pos = {x=0, y=0}, boss = {}, boss_colour = HEX('FFFFFF'), defeated = false}
 
     --- Bleach Blind
     local Bleach_blind_def = {
@@ -286,9 +238,21 @@ function SMODS.INIT.InkAndColor()
         },
     }
     local Bleach_blind = SMODS.Blind:new("The Bleach", "bleach", Bleach_blind_def, 5, 2, {}, {suit = 'Ink'}, {x=0, y=0}, {min = 1, max = 10}, HEX('CCCCCC'), true, 'InkAndColor' .. "blinds")
-    SMODS.Sprite:new('InkAndColor' .. "blinds", ink_and_color_mod.path, 'BlindChipsBleach.png', 34, 34, 'animation_atli', 21):register()
-    Bleach_blind:register()
+    SMODS.Sprite:new('InkAndColor' .. "blinds", ink_and_color_mod.path, 'BlindChips.png', 34, 34, 'animation_atli', 21):register()
 
+    --- Drain Blind
+    local Drain_blind_def = {
+        ["name"]="The Drain",
+        ["text"]={
+            [1]="All Color cards",
+            [2]="are debuffed"
+        },
+    }
+    local Drain_blind = SMODS.Blind:new("The Drain", "drain", Drain_blind_def, 5, 2, {}, {suit = 'Color'}, {x=0, y=1}, {min = 1, max = 10}, HEX('A9A9A9'), true, 'InkAndColor' .. "blinds")
+    SMODS.Sprite:new('InkAndColor' .. "blinds", ink_and_color_mod.path, 'BlindChips.png', 34, 34, 'animation_atli', 21):register()
+
+    Bleach_blind:register()
+    Drain_blind:register()
 
     if config.inkedJoker then
         SMODS.Jokers.j_inked_joker.calculate = function(self, context)
@@ -415,19 +379,6 @@ function G.FUNCS.evaluate_play(self, e)
         end
     end
 end
-
-SMODS.Tarot = {
-  	name = "",
-  	slug = "",
-	cost = 3,
-	config = {},
-  	pos = {},
-	loc_txt = {},
-	discovered = false, 
-	consumeable = true,
-	effect = "",
-	cost_mult = 1.0
-}
 
 function SMODS.Tarot:new(name, slug, config, pos, loc_txt, cost, cost_mult, effect, consumeable, discovered)
     o = {}
@@ -558,8 +509,6 @@ function create_UIBox_your_collection_tarots()
 			}})
 	return t
   end
-
-  SMODS.Blind = {name = "", slug = "", loc_txt = {}, dollars = 5, mult = 2, vars = {}, debuff = {}, pos = {x=0, y=0}, boss = {}, boss_colour = HEX('FFFFFF'), defeated = false}
 
 function SMODS.Blind:new(name, slug, loc_txt, dollars, mult, vars, debuff, pos, boss, boss_colour, defeated, atlas)
 	o = {}
@@ -1169,12 +1118,6 @@ function add_round_eval_row(config)
                       offset ={x=0,y=0.4},
                       major = G.round_eval}
                 }
-
-                --local left_text = {n=G.UIT.R, config={id = 'cash_out_button', align = "cm", padding = 0.1, minw = 2, r = 0.15, colour = G.C.ORANGE, shadow = true, hover = true, one_press = true, button = 'cash_out', focus_args = {snap_to = true}}, nodes={
-                --    {n=G.UIT.T, config={text = localize('b_cash_out')..": ", scale = 1, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
-                --    {n=G.UIT.T, config={text = localize('$')..config.dollars, scale = 1.3*scale, colour = G.C.WHITE, shadow = true, juice = true}}
-                --}}
-                --G.round_eval:add_child(left_text,G.round_eval:get_UIE_by_ID('eval_bottom'))
 
                 G.GAME.current_round.dollars = config.dollars
                 
