@@ -13,20 +13,16 @@ Artist- Played cards with color suit gives +4 mult
 
 
 Inked Joker- Played cards with Ink suit gives +4 mult
-![j_inked_joker](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/10652f49-7783-403c-9c05-c43d5de9c11c)
-
-
+![j_inked_joker](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/ae71b5e3-b895-4db8-87d3-b2b2e7d721e9)
 
 
 Adds two new tarot cards:
 The Blob- Converts 3 selected cards to suit Ink
-![c_blob_tarot](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/018c73f8-53eb-4fd9-b709-8cb4a2540d15)
-
-
+![c_blob_tarot](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/c6525db8-6a3a-4983-bf3b-150ead66a46a)
 
 
 The Color- Converts 3 selected cards to suit color
-![c_color_tarot](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/1d40e286-c094-4e4c-b764-4a99495aa894)
+![c_color_tarot](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/60fcf013-8db2-43f7-a3de-c9b1b3e525c1)
 
 
 Adds two new Blinds:
