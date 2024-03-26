@@ -31,5 +31,8 @@ The Color- Converts 3 selected cards to suit color
 
 Adds two new Blinds:
 The Bleach- Debuffs all cards with ink suit
-[wip]The Drain- Debuffs all cards with color suit
+![Screenshot 2024-03-25 174155](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/2598321b-a060-474d-a220-49789acfc479)
+
+The Drain- Debuffs all cards with color suit
+![Screenshot 2024-03-25 174208](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/6cfcbd4a-72eb-4566-b107-0f86d0d3407a)
 
