@@ -1,8 +1,10 @@
 Ink And Color-
 
 Adds two new suits:
-Ink And Color-
-![Screenshot 2024-03-24 154354](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/9108ca7f-4fb3-47fd-994f-2711c66e54c7)
+Ink And Color-(Art by Grassy)
+
+![image](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/2f145738-1793-4997-a894-921401d8d51d)
+
 
 
 Adds two new jokers:
