@@ -9,11 +9,11 @@ Ink And Color-(Art by Grassy)
 
 Adds two new jokers:
 Artist- Played cards with color suit gives +4 mult
-![j_artist](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/469b27f2-8d39-4ad1-aac9-ed2ccac0d10c)
+![j_artist](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/ccb117b3-5cb3-4cb9-98a3-c6720abbeb9d)
 
 
 Inked Joker- Played cards with Ink suit gives +4 mult
-![j_inked_joker](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/ae71b5e3-b895-4db8-87d3-b2b2e7d721e9)
+![j_inked_joker](https://github.com/RattlingSnow353/InkAndColor/assets/84494581/25facc6f-50a9-4bf2-9c96-3d1e65a2837a)
 
 
 Adds two new tarot cards:
