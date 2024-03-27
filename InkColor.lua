@@ -181,7 +181,7 @@ function SMODS.INIT.InkAndColor()
         { x = 1, y = 0 }, '136056', '295270')
     SMODS.Card:new_suit('Ink', 'ink_&_color_1', 'ink_&_color_2', { y = 0 }, 'ink_&_color_ui_1', 'ink_&_color_ui_2',
         { x = 0, y = 0 }, '000000', '000000')
-   
+    --Art For Suits By Grassy
     G.ink_and_color = false
 
     -- Initialize Jokers
@@ -191,7 +191,7 @@ function SMODS.INIT.InkAndColor()
                 v.rarity, v.cost, v.unlocked, v.discovered, v.blueprint_compat, v.eternal_compat)
             joker:register()
             local sprite = SMODS.Sprite:new("j_" .. v.slug, SMODS.findModByID('InkAndColor').path,
-                "j_" .. v.slug .. ".png", 71, 95, "asset_atli")
+                "Jokers/j_" .. v.slug .. ".png", 71, 95, "asset_atli")
             sprite:register()
         end
     end
@@ -209,7 +209,7 @@ function SMODS.INIT.InkAndColor()
     }
     
     local blob_tarot = SMODS.Tarot:new("The Blob", "blob_tarot", {suit_conv = 'Ink', max_highlighted = 3}, { x = 0, y = 0 }, blob_tarot_def, 3, 1.0, "Suit Conversion", true, true)
-    SMODS.Sprite:new("c_blob_tarot", ink_and_color_mod.path, "c_blob_tarot.png", 71, 95, "asset_atli"):register();
+    SMODS.Sprite:new("c_blob_tarot", ink_and_color_mod.path, "Tarots/c_blob_tarot.png", 71, 95, "asset_atli"):register();
 
     -- Color Tarot
     local color_tarot_def = {
@@ -222,7 +222,7 @@ function SMODS.INIT.InkAndColor()
     }
     
     local color_tarot = SMODS.Tarot:new("The Color", "color_tarot", {suit_conv = 'Color', max_highlighted = 3}, { x = 0, y = 0 }, color_tarot_def, 3, 1.0, "Suit Conversion", true, true)
-    SMODS.Sprite:new("c_color_tarot", ink_and_color_mod.path, "c_color_tarot.png", 71, 95, "asset_atli"):register();
+    SMODS.Sprite:new("c_color_tarot", ink_and_color_mod.path, "Tarots/c_color_tarot.png", 71, 95, "asset_atli"):register();
     
     color_tarot:register()
     blob_tarot:register()
