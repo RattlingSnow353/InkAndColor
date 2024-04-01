@@ -2,17 +2,32 @@
 --- MOD_NAME: Ink And Color
 --- MOD_ID: InkAndColor
 --- MOD_AUTHOR: [RattlingSnow353]
---- MOD_DESCRIPTION: This mod is based on sixsuits(check them out), Adds two new suits: Ink & Color. 
+--- MOD_DESCRIPTION: This mod is inspired on sixsuits(check them out), Adds two new suits: Ink & Color(Suit art by Grassy), Adds 4 complmentairy jokers, Adds two compenttary blinds, Adds two complmentairy tarot cards, and a Deck for the cards. 
 
 ----------------------------------------------
 ------------MOD CODE -------------------------
 local config = {
     -- Decks
-    -- Maybe one day
+    stainedPalette = true,
     -- Jokers
     inkedJoker = true,
     artist = true,
+    obsidian = true,
+    bismuth = true,
+    --monochromeTv = true,
 }
+
+local function is_Ink(card)
+    local suitI = card:is_suit("Ink")
+    return suitI
+end
+
+local function is_Color(card)
+    local suitC = card:is_suit("Color")
+    return suitC 
+end
+
+
 
 local enhancements = {
     G.P_CENTERS.m_bonus,
@@ -25,23 +40,12 @@ local enhancements = {
     G.P_CENTERS.m_lucky
 }
 
-local card_editions = {
-    { foil = true },
-    { holo = true },
-    { polychrome = true }
-}
-
 local seals = {
     "Gold",
     "Red",
     "Blue",
     "Purple"
 }
-
-local function get_random_in_table(table)
-    local index = math.random(1, #table)
-    return table[index]
-end
 
 local function tables_equal(a, b)
     return table.concat(a) == table.concat(b)
@@ -55,42 +59,176 @@ local function tables_copy(t)
     return t2
 end
 
+-- Save attributes
 local attributes = {
-    mult = { key = 'mult_dagonet', min = 0 },
-    mult_mod = { key = 'mult_mod_dagonet', min = 0 },
-    chips = { key = 'chips_dagonet', min = 0 },
-    chip_mod = { key = 'chip_mod_dagonet', min = 0 },
-    Xmult = { key = 'Xmult_dagonet', min = 1 },
-    Xmult_mod = { key = 'Xmult_mod_dagonet', min = 0 },
-    x_mult = { key = 'x_mult_dagonet', min = 1 },
-    t_mult = { key = 't_mult_dagonet', min = 0 },
-    t_chips = { key = 't_chips_dagonet', min = 0 },
-    s_mult = { key = 's_mult_dagonet', min = 0 },
-    dollars = { key = 'dollars_dagonet', min = 0 },
-    hand_add = { key = 'hand_add_dagonet', min = 0 },
-    discard_sub = { key = 'discard_sub_dagonet', min = 0 },
-    odds = { key = 'odds_dagonet', min = 0 },
-    faces = { key = 'faces_dagonet', min = 0 },
-    max = { key = 'max_dagonet', min = 0 },
-    min = { key = 'min_dagonet', min = 0 },
-    every = { key = 'every_dagonet', min = 0 },
-    increase = { key = 'increase_dagonet', min = 0 },
-    h_size = { key = 'h_size_dagonet', min = 0 },
-    d_size = { key = 'd_size_dagonet', min = 0 },
-    h_mod = { key = 'h_mod_dagonet', min = 0 },
-    h_plays = { key = 'h_plays_dagonet', min = 0 },
-    discards = { key = 'discards_dagonet', min = 0 },
-    req = { key = 'req_dagonet', min = 0 },
-    percentage = { key = 'percentage_dagonet', min = 0 },
-    base = { key = 'base_dagonet', min = 0 },
-    dollar_gain_one = { key = 'dollar_gain_one_dagonet', min = 0 },
-    dollar_gain_two = { key = 'dollar_gain_two_dagonet', min = 0 },
-    dollar_gain_three = { key = 'dollar_gain_three_dagonet', min = 0 },
-    dollar_gain_four = { key = 'dollar_gain_four_dagonet', min = 0 },
-    dollar_gain_five = { key = 'dollar_gain_five_dagonet', min = 0 },
-    extra = { key = 'extra_dagonet', min = 0 }
+    mult = {
+        key = 'mult_dagonet',
+        prev_key = 'prev_mult_dagonet',
+        min = 0
+    },
+    mult_mod = {
+        key = 'mult_mod_dagonet',
+        prev_key = 'prev_mult_mod_dagonet',
+        min = 0
+    },
+    chips = {
+        key = 'chips_dagonet',
+        prev_key = 'prev_chips_dagonet',
+        min = 0
+    },
+    chip_mod = {
+        key = 'chip_mod_dagonet',
+        prev_key = 'prev_chips_mod_dagonet',
+        min = 0
+    },
+    Xmult = {
+        key = 'Xmult_dagonet',
+        prev_key = 'prev_Xmult_dagonet',
+        min = 1
+    },
+    Xmult_mod = {
+        key = 'Xmult_mod_dagonet',
+        prev_key = 'prev_Xmult_mod_dagonet',
+        min = 0
+    },
+    x_mult = {
+        key = 'x_mult_dagonet',
+        prev_key = 'prev_x_mult_dagonet',
+        min = 1
+    },
+    t_mult = {
+        key = 't_mult_dagonet',
+        prev_key = 'prev_t_mult_dagonet',
+        min = 0
+    },
+    t_chips = {
+        key = 't_chips_dagonet',
+        prev_key = 'prev_t_chips_dagonet',
+        min = 0
+    },
+    s_mult = {
+        key = 's_mult_dagonet',
+        prev_key = 'prev_s_mult_dagonet',
+        min = 0
+    },
+    dollars = {
+        key = 'dollars_dagonet',
+        prev_key = 'prev_dollars_dagonet',
+        min = 0
+    },
+    hand_add = {
+        key = 'hand_add_dagonet',
+        prev_key = 'prev_hand_add_dagonet',
+        min = 0
+    },
+    discard_sub = {
+        key = 'discard_sub_dagonet',
+        prev_key = 'prev_discard_sub_dagonet',
+        min = 0
+    },
+    odds = {
+        key = 'odds_dagonet',
+        prev_key = 'prev_odds_dagonet',
+        min = 0
+    },
+    faces = {
+        key = 'faces_dagonet',
+        prev_key = 'prev_faces_dagonet',
+        min = 0
+    },
+    max = {
+        key = 'max_dagonet',
+        prev_key = 'prev_max_dagonet',
+        min = 0
+    },
+    min = {
+        key = 'min_dagonet',
+        prev_key = 'prev_min_dagonet',
+        min = 0
+    },
+    every = {
+        key = 'every_dagonet',
+        prev_key = 'prev_every_dagonet',
+        min = 0
+    },
+    increase = {
+        key = 'increase_dagonet',
+        prev_key = 'prev_increase_dagonet',
+        min = 0
+    },
+    d_size = {
+        key = 'd_size_dagonet',
+        prev_key = 'prev_d_size_dagonet',
+        min = 0
+    },
+    h_mod = {
+        key = 'h_mod_dagonet',
+        prev_key = 'prev_h_mod_dagonet',
+        min = 0
+    },
+    h_plays = {
+        key = 'h_plays_dagonet',
+        prev_key = 'prev_h_plays_dagonet',
+        min = 0
+    },
+    discards = {
+        key = 'discards_dagonet',
+        prev_key = 'prev_discards_dagonet',
+        min = 0
+    },
+    req = {
+        key = 'req_dagonet',
+        prev_key = 'prev_req_dagonet',
+        min = 0
+    },
+    percentage = {
+        key = 'percentage_dagonet',
+        prev_key = 'prev_percentage_dagonet',
+        min = 0
+    },
+    base = {
+        key = 'base_dagonet',
+        prev_key = 'prev_base_dagonet',
+        min = 0
+    },
+    repetitions = {
+        key = 'repetitions_dagonet',
+        prev_key = 'prev_repetitions_dagonet',
+        min = 0
+    },
+    dollar_gain_one = {
+        key = 'dollar_gain_one_dagonet',
+        prev_key = 'prev_dollar_gain_one_dagonet',
+        min = 0
+    },
+    dollar_gain_two = {
+        key = 'dollar_gain_two_dagonet',
+        prev_key = 'prev_dollar_gain_two_dagonet',
+        min = 0
+    },
+    dollar_gain_three = {
+        key = 'dollar_gain_three_dagonet',
+        prev_key = 'prev_dollar_gain_three_dagonet',
+        min = 0
+    },
+    dollar_gain_four = {
+        key = 'dollar_gain_four_dagonet',
+        prev_key = 'prev_dollar_gain_four_dagonet',
+        min = 0
+    },
+    dollar_gain_five = {
+        key = 'dollar_gain_five_dagonet',
+        prev_key = 'prev_dollar_gain_five_dagonet',
+        min = 0
+    },
+    extra = {
+        key = 'extra_dagonet',
+        prev_key = 'prev_extra_dagonet',
+        min = 0
+    }
 }
 
+-- Increase base attributes
 local function increase_attributes(k, v, place, multiplier)
     local attr = attributes[k]
 
@@ -104,64 +242,109 @@ local function increase_attributes(k, v, place, multiplier)
             increase_attributes(k2, v2, place.extra, multiplier)
         end
     elseif v > attr.min then
+        if place[attr.prev_key] == nil then
+            place[attr.prev_key] = multiplier
+        end
         if place[attr.key] == nil then
+            -- Save base value
             place[attr.key] = v
         else
-            v = v - place[attr.key]
-            place[attr.key] = v
+            if not (v / multiplier == place[attr.key] and place[attr.prev_key] == multiplier) then
+                if not (v / multiplier == place[attr.key] or v / place[attr.prev_key] == place[attr.key]) then
+                    if v / multiplier ~= place[attr.key] and place[attr.prev_key] == multiplier then
+                        -- Update base based on current multiplier
+                        local increase = (v / multiplier - place[attr.key]) * multiplier
+                        place[attr.key] = place[attr.key] + increase
+                    else
+                        -- Update base based on previous multiplier
+                        local increase = (v / place[attr.prev_key] - place[attr.key]) * place[attr.prev_key]
+                        place[attr.key] = place[attr.key] + increase
+                    end
+                end
+            end
         end
-        place[k] = v * multiplier
-    elseif v == attr.min and place[attr.key] ~= nil then
-        place[attr.key] = 0
+        -- Multiply attribute
+        place[k] = place[attr.key] * multiplier
+        place[attr.prev_key] = multiplier
     end
 end
 
-local locs = {
-    -- Decks
-    
-    -- Jokers
-    inkedJoker = {
-        name = "Inked Joker",
-        text = {
-            "Played cards with",
-            "{C:000000}Ink{} suit give",
-            "{C:mult}+4{} Mult when scored"
+local function not_in_table(table, value)
+    for _, v in ipairs(table) do
+        if v == value then
+            return false
+        end
+    end
+    return true
+end
+
+-- Create Decks
+local decks = {
+    stainedPalette = {
+        loc = {
+            name = "Stained Palette",
+            text = {
+                "Start run with only",
+                "{C:black,E:1,S:1.1}Ink{} and {C:purple,E:1,S:1.1}Color{}",
+                "cards."
+            }
+        },
+        name = "Stained Palette",
+        config = {
+            ink_and_color_deck = true
+        },
+        sprite = {
+            x = 7,
+            y = 5
         }
     },
-    artist = {
-        name = "Artist",
-        text = {
-            "Played cards with",
-            "{C:Purple}Color{} suit give",
-            "{C:mult}+4{} Mult when scored"
-        }
-    }
 }
 
-local jokers = {
-    inkedJoker = {
-        ability_name = "inkedJoker",
-        slug = "inked_joker",
-        ability = { extra = { mult = 4 } },
-        rarity = 1,
-        cost = 4,
-        unlocked = true,
-        discovered = true,
-        blueprint_compat = true,
-        eternal_compat = true
-    },
-    artist = {
-        ability_name = "artist",
-        slug = "artist",
-        ability = { extra = { mult = 4 } },
-        rarity = 1,
-        cost = 4,
-        unlocked = true,
-        discovered = true,
-        blueprint_compat = true,
-        eternal_compat = true
-    }
-}
+-- Initialize deck effect
+local Backapply_to_runRef = Back.apply_to_run
+function Back.apply_to_run(arg_56_0)
+    Backapply_to_runRef(arg_56_0)
+
+    if arg_56_0.effect.config.ink_and_color_deck then
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                -- Loop over all cards
+                for i = #G.playing_cards, 1, -1 do
+                    -- Remove odd cards
+                    if not is_Ink(G.playing_cards[i]) and not is_Color(G.playing_cards[i]) then
+                        G.playing_cards[i]:start_dissolve(nil, true)
+                    end
+                end
+
+                -- Return
+                G.GAME.starting_deck_size = 26
+                return true
+            end
+        }))
+    end
+end
+
+
+    --monochromeTv = {
+      --  name = "Monochrome TV",
+        --text = {
+          --  "{C:black,E:1,S:1.1}Ink{} suit will be considered as no suit.",
+            --"If there are any inks scored with other suited cards,",
+   --         "they will be converted into the {C:black,E:1,S:1.1}Ink{} Suit.",
+     --   }
+    --}
+
+    --monochromeTv = {
+        --ability_name = "monochromeTv",
+        --slug = "monochrome_tv",
+        --ability = { extra = {} },
+        --rarity = 2,
+        --cost = 6,
+       -- unlocked = true,
+       -- discovered = true,
+       -- blueprint_compat = true,
+       -- eternal_compat = true,
+  --  }
 
 function SMODS.INIT.InkAndColor()
 
@@ -184,15 +367,13 @@ function SMODS.INIT.InkAndColor()
     --Art For Suits By Grassy
     G.ink_and_color = false
 
-    -- Initialize Jokers
-    for k, v in pairs(jokers) do
+    -- Initialize Decks
+    for k, v in pairs(decks) do
         if config[k] then
-            local joker = SMODS.Joker:new(v.ability_name, v.slug, v.ability, { x = 0, y = 0 }, locs[k],
-                v.rarity, v.cost, v.unlocked, v.discovered, v.blueprint_compat, v.eternal_compat)
-            joker:register()
-            local sprite = SMODS.Sprite:new("j_" .. v.slug, SMODS.findModByID('InkAndColor').path,
-                "Jokers/j_" .. v.slug .. ".png", 71, 95, "asset_atli")
-            sprite:register()
+            local newDeck = SMODS.Deck:new(v.name, k, v.config, v.sprite, v.loc)
+            local sprite_centers = SMODS.Sprite:new("centers", ink_and_color_mod.path, "NewEnhancer.png", 71, 95, "asset_atli")
+            sprite_centers:register()
+            newDeck:register()
         end
     end
 
@@ -255,37 +436,365 @@ function SMODS.INIT.InkAndColor()
     Drain_blind:register()
 
     if config.inkedJoker then
+        -- Create Joker
+        local inked = {
+            loc = {
+                name = "Inked Joker",
+                text = {
+                    "Played cards with",
+                    "{C:black,E:1,S:1.1}Ink{} suit gives",
+                    "{C:mult}+4{} Mult when scored"
+                }
+            },
+            ability_name = "inkedJoker",
+            slug = "inked_joker",
+            ability = {
+                extra = {
+                    mult = 4
+                }
+            },
+            rarity = 1,
+            cost = 4,
+            unlocked = true,
+            discovered = true,
+            blueprint_compat = true,
+            eternal_compat = true
+        }
+
+        -- Initialize Joker
+        local joker = SMODS.Joker:new(
+            inked.ability_name,
+            inked.slug,
+            inked.ability,
+            { x = 0, y = 0 },
+            inked.loc,
+            inked.rarity,
+            inked.cost,
+            inked.unlocked,
+            inked.discovered,
+            inked.blueprint_compat,
+            inked.eternal_compat
+        )
+        joker:register()
+
+        -- Initialize Sprite
+        local sprite = SMODS.Sprite:new(
+            "j_" .. inked.slug,
+            ink_and_color_mod.path,
+            "j_" .. inked.slug .. ".png",
+            71,
+            95,
+            "asset_atli"
+        )
+        sprite:register()
+
+        -- Set local variables
+        function SMODS.Jokers.j_inked_joker.loc_def(card)
+            return { card.ability.extra.mult }
+        end
+
+        function SMODS.Jokers.j_inked_joker.set_badges(card, badges)
+            badges[#badges+1] = create_badge("Mod:Ink & Color Suits", G.C.SUITS.Ink)
+            return badges
+        end
+
+        -- Calculate
         SMODS.Jokers.j_inked_joker.calculate = function(self, context)
-            if context.cardarea == G.play and not context.repetition then
-                if context.other_card:is_suit('Ink') then
-                    -- Add mult if ink suit
-                    return {
-                        message = localize { type = 'variable', key = 'a_mult', vars = { self.ability.extra.mult } },
-                        mult = self.ability.extra.mult,
-                        card = self
-                    }
-                end
+            if context.individual and context.cardarea == G.play and context.other_card:is_suit('Ink') then
+            -- Add mult if ink suit
+                return {
+                    message = localize {
+                        type = 'variable',
+                        key = 'a_mult',
+                        vars = { self.ability.extra.mult }
+                    },
+                    mult = self.ability.extra.mult,
+                    card = self,
+                }
             end
         end
     end
     if config.artist then
+        -- Create Joker
+        local art = {
+            loc = {
+                name = "Artist",
+                text = {
+                    "Played cards with",
+                    "{C:purple,E:1,S:1.1}Color{} suit gives",
+                    "{C:mult}+4{} Mult when scored"
+                }
+            },
+            ability_name = "artist",
+            slug = "artist",
+            ability = {
+                extra = {
+                    mult = 4
+                }
+            },
+            rarity = 1,
+            cost = 4,
+            unlocked = true,
+            discovered = true,
+            blueprint_compat = true,
+            eternal_compat = true
+        }
+
+        -- Initialize Joker
+        local joker = SMODS.Joker:new(
+            art.ability_name,
+            art.slug,
+            art.ability,
+            { x = 0, y = 0 },
+            art.loc,
+            art.rarity,
+            art.cost,
+            art.unlocked,
+            art.discovered,
+            art.blueprint_compat,
+            art.eternal_compat
+        )
+        joker:register()
+
+        -- Initialize Sprite
+        local sprite = SMODS.Sprite:new(
+            "j_" .. art.slug,
+            ink_and_color_mod.path,
+            "j_" .. art.slug .. ".png",
+            71,
+            95,
+            "asset_atli"
+        )
+        sprite:register()
+
+        -- Set local variables
+        function SMODS.Jokers.j_artist.loc_def(card)
+            return { card.ability.extra.mult }
+        end
+
+        function SMODS.Jokers.j_artist.set_badges(card, badges)
+            badges[#badges+1] = create_badge("Mod:Ink & Color Suits", G.C.SUITS.Ink)
+            return badges
+        end
+
+        -- Calculate
         SMODS.Jokers.j_artist.calculate = function(self, context)
-            if context.cardarea == G.play and not context.repetition then
-                if context.other_card:is_suit('Color') then
-                    -- Add mult if color suit
+            if context.individual and context.cardarea == G.play and context.other_card:is_suit('Color') then
+            -- Add mult if color suit
+                return {
+                    message = localize {
+                        type = 'variable',
+                        key = 'a_mult',
+                        vars = { self.ability.extra.mult }
+                    },
+                    mult = self.ability.extra.mult,
+                    card = self
+                }
+            end
+        end
+    end
+    if config.obsidian then
+        -- Create Joker
+        local obs = {
+            loc = {
+                name = "Obsidian",
+                text = {
+                    "Gains {C:chips}+1{} Chips for every card with an {C:black,E:1,S:1.1}Ink{}",
+                    "suit is scored. (Appliys bonus every time a", 
+                    "card with {C:black,E:1,S:1.1}Ink{} is suit scored)",
+                    "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
+                    "{C:inactive}Art by {C:green,E:1,S:1.1}Grassy"
+                }
+            },
+            ability_name = "obsidian",
+            slug = "obsidian",
+            ability = {
+                extra = {
+                    current_chips = 1,
+                    chip_mod = 1,
+                    base = 1
+                }
+            },
+            rarity = 2,
+            cost = 6,
+            unlocked = true,
+            discovered = true,
+            blueprint_compat = true,
+            eternal_compat = true
+        }
+
+        -- Initialize Joker
+        local joker = SMODS.Joker:new(
+            obs.ability_name,
+            obs.slug,
+            obs.ability,
+            { x = 0, y = 0 },
+            obs.loc,
+            obs.rarity,
+            obs.cost,
+            obs.unlocked,
+            obs.discovered,
+            obs.blueprint_compat,
+            obs.eternal_compat
+        )
+        joker:register()
+
+        -- Initialize Sprite
+        local sprite = SMODS.Sprite:new(
+            "j_" .. obs.slug,
+            ink_and_color_mod.path,
+            "j_" .. obs.slug .. ".png",
+            71,
+            95,
+            "asset_atli"
+        )
+        sprite:register()
+
+        -- Set local variables
+        function SMODS.Jokers.j_obsidian.loc_def(card)
+            return { card.ability.extra.current_chips, card.ability.extra.chip_mod }
+        end
+
+        function SMODS.Jokers.j_obsidian.set_badges(card, badges)
+            badges[#badges+1] = create_badge("Mod:Ink & Color Suits", G.C.SUITS.Ink)
+            return badges
+        end
+
+        -- Calculate
+        SMODS.Jokers.j_obsidian.calculate = function(self, context)
+            if context.individual and context.cardarea == G.play and context.other_card:is_suit('Ink') then
+            -- Adds Chips to joker if Ink suit
+                self.ability.extra.current_chips = self.ability.extra.current_chips + self.ability.extra.chip_mod
+                return {
+                    message = localize {
+                        type = 'variable',
+                        key = 'a_current_chips',
+                        vars = { self.ability.extra.current_chips }
+                    },
+                    chips = self.ability.extra.current_chips,
+                    card = self
+                }
+            end
+        end
+    end
+    if config.bismuth then
+        -- Create Joker
+        local bis = {
+            loc = {
+                name = "Bismuth",
+                text = {
+                    "{C:green}#2# in #1#{} chance to",
+                    "convert scored cards into the {C:purple,E:1,S:1.1}Color{} suit.", 
+                    "{C:inactive}Art by {C:green,E:1,S:1.1}Grassy"
+                }
+            },
+            ability_name = "bismuth",
+            slug = "bismuth",
+            ability = {
+                extra = {
+                    odds = 10,
+                }
+            },
+            rarity = 2,
+            cost = 6,
+            unlocked = true,
+            discovered = true,
+            blueprint_compat = true,
+            eternal_compat = true
+        }
+
+        -- Initialize Joker
+        local joker = SMODS.Joker:new(
+            bis.ability_name,
+            bis.slug,
+            bis.ability,
+            { x = 0, y = 0 },
+            bis.loc,
+            bis.rarity,
+            bis.cost,
+            bis.unlocked,
+            bis.discovered,
+            bis.blueprint_compat,
+            bis.eternal_compat
+        )
+        joker:register()
+
+        -- Initialize Sprite
+        local sprite = SMODS.Sprite:new(
+            "j_" .. bis.slug,
+            ink_and_color_mod.path,
+            "j_" .. bis.slug .. ".png",
+            71,
+            95,
+            "asset_atli"
+        )
+        sprite:register()
+
+        -- Set local variables
+        function SMODS.Jokers.j_bismuth.loc_def(card)
+            return { card.ability.extra.odds, '' .. (G.GAME and G.GAME.probabilities.normal or 1)}
+        end
+
+        function SMODS.Jokers.j_bismuth.set_badges(card, badges)
+            badges[#badges+1] = create_badge("Mod:Ink & Color Suits", G.C.SUITS.Ink)
+            return badges
+        end
+
+        -- Calculate
+        SMODS.Jokers.j_bismuth.calculate = function(self, context)
+            if pseudorandom('lucky_money') < G.GAME.probabilities.normal / self.ability.extra.odds then
+                if context.cardarea == G.play and not context.repetition and not context.other_card:is_suit('Color') then
+                    local original_value = context.other_card.base.value
+
+                    -- Flip the card for a smooth transition
+                    context.other_card:flip()
+
+                    -- Remove the current card
+                    context.other_card:remove_from_deck()
+
+                    -- Choose a new suit (e.g., 'Hearts')
+                    local new_suit = 'Color'
+
+                    -- Add a new card with the same value but the chosen suit
+                    context.other_card:change_suit(new_suit)
+
+                    -- Flip the card for a smooth transition
+                    context.other_card:flip()
+
+                    -- Notify about the suit change
                     return {
-                        message = localize { type = 'variable', key = 'a_mult', vars = { self.ability.extra.mult } },
-                        mult = self.ability.extra.mult,
-                        card = self
+                        message = localize {
+                            type = 'variable',
+                            key = 'suit_changed',
+                            vars = { new_suit }
+                        },
+                        card = context.other_card
                     }
                 end
             end
         end
     end
 
+    --if config.monochromeTv then
+      --  SMODS.Jokers.j_monochrome_tv.calculate = function(self, context)
+        --    if context.cardarea == G.play and not context.repetition then
+          --      if context.other_card:is_suit('Ink') then
+            --        return {
+              --      card = self
+    --            }
+      --          else
+        --            context.other_card.base.suit = "Ink"
+          --      end
+            --    return {
+              --      card = self
+    --            }
+      --      end
+       -- end
+    --end
 
 
-    --! DO NOT MODIFY | handles hands added to G.handlist
+
+    --! DO NOT MODIFY | handles hands added to G.handlist 
     function create_UIBox_current_hands(simple)
         local hands = {}
         for _, v in ipairs(G.handlist) do
@@ -307,73 +816,30 @@ function SMODS.INIT.InkAndColor()
     end
 end
 
-local generate_UIBox_ability_tableref = Card.generate_UIBox_ability_table
-function Card.generate_UIBox_ability_table(self)
-    local card_type, hide_desc = self.ability.set or "None", nil
-    local loc_vars = nil
-    local main_start, main_end = nil, nil
-    local no_badge = nil
+--function Card:is_ink_suit(suit, bypass_debuff, flush_calc)
+    --if flush_calc then
+        --if self.ability.effect == 'Ink' then
+            --return false
+        --end
+    --else
+        --if self.debuff and not bypass_debuff then return end
+        --if self.ability.effect == 'Ink' then
+            --return false
+        --end
+    --end
+--end
 
-    if self.config.center.unlocked == false and not self.bypass_lock then    -- For everyting that is locked
-    elseif card_type == 'Undiscovered' and not self.bypass_discovery_ui then -- Any Joker or tarot/planet/voucher that is not yet discovered
-    elseif self.debuff then
-    elseif card_type == 'Default' or card_type == 'Enhanced' then
-    elseif self.ability.set == 'Joker' then
-        local customJoker = true
-
-        if self.ability.name == 'inkedJoker' then
-            loc_vars = { self.ability.extra.mult }
-        elseif self.ability.name == 'artist' then
-            loc_vars = { self.ability.extra.mult }
-        else
-            customJoker = false
-        end
-
-        if customJoker then
-            local badges = {}
-            if (card_type ~= 'Locked' and card_type ~= 'Undiscovered' and card_type ~= 'Default') or self.debuff then
-                badges.card_type = card_type
-            end
-            if self.ability.set == 'Joker' and self.bypass_discovery_ui and (not no_badge) then
-                badges.force_rarity = true
-            end
-            if self.edition then
-                if self.edition.type == 'negative' and self.ability.consumeable then
-                    badges[#badges + 1] = 'negative_consumable'
-                else
-                    badges[#badges + 1] = (self.edition.type == 'holo' and 'holographic' or self.edition.type)
-                end
-            end
-            if self.seal then
-                badges[#badges + 1] = string.lower(self.seal) .. '_seal'
-            end
-            if self.ability.eternal then
-                badges[#badges + 1] = 'eternal'
-            end
-            if self.pinned then
-                badges[#badges + 1] = 'pinned_left'
-            end
-
-            if self.sticker then
-                loc_vars = loc_vars or {};
-                loc_vars.sticker = self.sticker
-            end
-
-            return generate_card_ui(self.config.center, nil, loc_vars, card_type, badges, hide_desc, main_start,
-                main_end)
-        end
-    end
-
-    return generate_UIBox_ability_tableref(self)
-end
-
+-- Calculate Chips
 local evaluate_playref = G.FUNCS.evaluate_play
 function G.FUNCS.evaluate_play(self, e)
     evaluate_playref(self, e)
 
     for i = 1, #G.jokers.cards do
-        local effects = eval_card(G.jokers.cards[i],
-            { card = G.consumeables, after = true, mmc_scored_chips = hand_chips * mult })
+        local effects = eval_card(G.jokers.cards[i], {
+            card = G.consumeables,
+            after = true,
+            mmc_scored_chips = hand_chips * mult
+        })
         if effects.jokers then
             card_eval_status_text(G.jokers.cards[i], 'jokers', nil, 0.3, nil, effects.jokers)
         end
