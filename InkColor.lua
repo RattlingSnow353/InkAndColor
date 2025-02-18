@@ -115,9 +115,7 @@ function Back.apply_to_run(self)
                         G.playing_cards[i]:change_suit("ink_Inks")
                     elseif i >= 14 and i <= 26 then
                         G.playing_cards[i]:change_suit("ink_Colors")
-                    elseif i >= 27 and i <= 39 then
-                        G.playing_cards[i]:start_dissolve(nil, true)
-                    elseif i >= 40 and i <= 52 then
+                    else
                         G.playing_cards[i]:start_dissolve(nil, true)
                     end
                 end
@@ -366,11 +364,6 @@ SMODS.Joker {
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card:is_suit('ink_Inks') then
             return {
-                message = localize {
-                    type = 'variable',
-                    key = 'a_mult',
-                    vars = { card.ability.extra.mult }
-                },
                 mult = card.ability.extra.mult,
                 card = card,
             }
@@ -407,11 +400,6 @@ SMODS.Joker {
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card:is_suit('ink_Colors') then
             return {
-                message = localize {
-                    type = 'variable',
-                    key = 'a_mult',
-                    vars = { card.ability.extra.mult }
-                },
                 mult = card.ability.extra.mult,
                 card = card,
             }
@@ -452,11 +440,6 @@ SMODS.Joker {
         if context.individual and context.cardarea == G.play and context.other_card:is_suit('ink_Inks') then
             card.ability.extra.current_chips = card.ability.extra.current_chips + card.ability.extra.chip_mod
             return {
-                message = localize {
-                    type = 'variable',
-                    key = 'a_current_chips',
-                    vars = { card.ability.extra.current_chips }
-                },
                 chips = card.ability.extra.current_chips,
                 card = card
             }
@@ -501,11 +484,6 @@ SMODS.Joker {
                 context.other_card:flip()
 
                 return {
-                    message = localize {
-                        type = 'variable',
-                        key = 'suit_changed',
-                        vars = { new_suit }
-                    },
                     card = context.other_card
                 }
             end
@@ -630,11 +608,6 @@ SMODS.Joker {
                         v:flip()
                     end 
                     return {
-                        message = localize {
-                            type = 'variable',
-                            key = 'suit_changed',
-                            vars = { new_suit }
-                        },
                         card = context.other_card
                     }
                 end
