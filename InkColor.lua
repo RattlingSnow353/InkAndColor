@@ -132,6 +132,8 @@ end
 --- Sprites
 SMODS.Atlas { key = 'lc_cards', path = '8BitDeck.png', px = 71, py = 95 }
 SMODS.Atlas { key = 'lc_ui', path = 'ui_assets.png', px = 18, py = 18 }
+SMODS.Atlas { key = 'hc_cards', path = 'Hc8BitDeck.png', px = 71, py = 95 }
+SMODS.Atlas { key = 'hc_ui', path = 'Hcui_assets.png', px = 18, py = 18 }
 SMODS.Atlas { key = 'Joker', path = 'Jokers.png', px = 71, py = 95 }
 SMODS.Atlas { key = 'Consumables', path = 'Consumables.png', px = 71, py = 95 }
 SMODS.Atlas { key = 'Decks', path = 'Decks.png', px = 71, py = 95 }
@@ -145,12 +147,15 @@ SMODS.Suit {
     card_key = 'Cink',
 
     lc_atlas = 'lc_cards',
+    hc_atlas = 'hc_cards',
     lc_ui_atlas = 'lc_ui',
+    hc_ui_atlas = 'hc_ui',
 
     pos = { y = 0 },
     ui_pos = { x = 0, y = 0 },
 
-    lc_colour = HEX('000000'),
+    lc_colour = HEX('374649'),
+    hc_colour = HEX('1b5864'),
 
     loc_txt = {
         ['en-us'] = {
@@ -165,12 +170,15 @@ SMODS.Suit {
     card_key = 'Ccolor',
 
     lc_atlas = 'lc_cards',
+    hc_atlas = 'hc_cards',
     lc_ui_atlas = 'lc_ui',
+    hc_ui_atlas = 'hc_ui',
 
     pos = { y = 1 },
     ui_pos = { x = 1, y = 0 },
 
-    lc_colour = HEX('000000'),
+    lc_colour = HEX('eb8920'),
+    hc_colour = HEX('ff951b'),
 
     loc_txt = {
         ['en-us'] = {
